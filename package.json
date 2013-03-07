@@ -1,0 +1,32 @@
+{
+  "author": {
+    "name": "Soares Chen",
+    "email": "soares.chen@gmail.com",
+    "url": "http://soareschen.com"
+  },
+  "name": "quiver-stream-channel",
+  "desription": "simple stream channel that is consistent and easy to use",
+  "version": "0.0.1",
+  "homepage": "https://github.com/quiverjs/stream-channel",
+  "repository": {
+    "url": "git@github.com:quiverjs/stream-channel.git"
+  },
+  "dependencies": {
+    "quiver-object": ">=0.0.1"
+  },
+  "devDependencies": {
+    "vows": ">=0.7.0"
+  },
+  "bugs": {
+    "url": "https://github.com/quiverjs/stream-channel/issues",
+    "email": "quiverjs@soareschen.com"
+  },
+  "licenses": {
+    "type": "MIT",
+    "url": "https://raw.github.com/quiverjs/license/master/LICENSE"
+  },
+  "main": "./lib/stream-channel",
+  "scripts": {
+    "test": "vows --spec"
+  }
+}
