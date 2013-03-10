@@ -1,6 +1,5 @@
 
-var vows = require('vows')
-var assert = require('assert')
+var should = require('should')
 var createChannel = require('../lib/stream-channel').createStreamChannel
 
 var guardCallback = function(callback) {
@@ -11,12 +10,10 @@ var guardCallback = function(callback) {
   }
 }
 
-vows.describe('compatibility test with primitive stream')
-.addBatch({
-  'read write write read read closeWrite': {
-    topic: function() {
-      var callback = this.callback
+describe('simple stream', function() {
+  describe('compatibility test with primitive stream', function() {
 
+    it('read write write read read closeWrite', function(callback) {
       var channel = createChannel()
       var readStream = channel.readStream
       var writeStream = channel.writeStream
@@ -27,27 +24,28 @@ vows.describe('compatibility test with primitive stream')
 
       // 1
       readStream.read(guardCallback(function(streamClosed, data) {
-        assert.isNull(streamClosed)
-        assert.equal(data, firstData)
-
+        should.not.exist(streamClosed)
+        data.should.equal(firstData)
+        
         // 3
         writeStream.prepareWrite(guardCallback(function(streamClosed, writer) {
-          assert.isNull(streamClosed)
-          assert.isFunction(writer)
+
+          should.not.exist(streamClosed)
+          writer.should.be.a('function')
 
           writer(null, secondData)
         }))
 
         // 4
         readStream.read(guardCallback(function(streamClosed, data) {
-          assert.isNull(streamClosed)
-          assert.equal(data, secondData)
+          should.not.exist(streamClosed)
+          data.should.equal(secondData)
 
           // 5
           readStream.read(guardCallback(function(streamClosed, data) {
-            assert.isObject(streamClosed)
-            assert.equal(streamClosed.err, closeErr)
-            assert.isUndefined(data)
+            should.exist(streamClosed)
+            streamClosed.err.should.equal(closeErr)
+            should.not.exist(data)
 
             callback(null)
           }))
@@ -59,22 +57,16 @@ vows.describe('compatibility test with primitive stream')
 
       // 2
       writeStream.prepareWrite(guardCallback(function(streamClosed, writer) {
-        assert.isNull(streamClosed)
-        assert.isFunction(writer)
+        should.not.exist(streamClosed)
+        writer.should.be.a('function')
 
         writer(null, firstData)
       }))
-    },
-    'should success': function() { }
-  }
-}).export(module)
+    })
+  })
 
-vows.describe('simple stream extension test')
-.addBatch({
-  'should be able to write multiple times': {
-    topic: function() {
-      var callback = this.callback
-
+  describe('simple stream extension test', function() {
+    it('should be able to write multiple times', function(callback) {
       var channel = createChannel()
       var readStream = channel.readStream
       var writeStream = channel.writeStream
@@ -89,34 +81,33 @@ vows.describe('simple stream extension test')
       writeStream.write(secondData)
 
       readStream.read(guardCallback(function(streamClosed, data) {
-        assert.isNull(streamClosed)
-        assert.equal(data, firstData)
+        should.not.exist(streamClosed)
+        data.should.equal(firstData)
 
         readStream.read(guardCallback(function(streamClosed, data) {
-          assert.isNull(streamClosed)
-          assert.equal(data, secondData)
-        }))
-
-        readStream.read(guardCallback(function(streamClosed, data) {
-          assert.isNull(streamClosed)
-          assert.equal(data, thirdData)
-
-          readStream.closeRead(closeErr)
+          should.not.exist(streamClosed)
+          data.should.equal(secondData)
 
           readStream.read(guardCallback(function(streamClosed, data) {
-            assert.equal(streamClosed.err, closeErr)
-            assert.isUndefined(data)
+            should.not.exist(streamClosed)
+            data.should.equal(thirdData)
+
+            readStream.closeRead(closeErr)
+
+            callback(null)
+            readStream.read(guardCallback(function(streamClosed, data) {
+              streamClosed.err.should.equal(closeErr)
+              should.not.exist(data)
+            }))
           }))
+
+          writeStream.write(thirdData)
+          writeStream.prepareWrite(function(streamClosed, writer) {
+            streamClosed.err.should.equal(closeErr)
+            should.not.exist(writer)
+          })
         }))
-
-        writeStream.write(thirdData)
-        writeStream.prepareWrite(function(streamClosed, writer) {
-          assert.equal(streamClosed.err, closeErr)
-          assert.isUndefined(writer)
-        })
       }))
-    },
-    'should success': function() { }
-  }
-}).export(module)
-
+    })
+  })
+})
