@@ -1,6 +1,7 @@
 
 var should = require('should')
-var createChannel = require('../lib/stream-channel').createStreamChannel
+var streamChannel = require('../lib/stream-channel')
+var createChannel = streamChannel.createStreamChannel
 
 var guardCallback = function(callback) {
   var called = false
@@ -111,3 +112,34 @@ describe('simple stream', function() {
     })
   })
 })
+
+describe('empty stream test', function() {
+  it('test empty read stream', function(callback) {
+    var readStream = streamChannel.createEmptyReadStream()
+    
+    readStream.read(function(streamClosed, data) {
+      should.exist(streamClosed)
+      should.not.exist(data)
+
+      callback(null)
+    })
+
+    should.exist(readStream.isClosed())
+  })
+
+  it('test empty write stream', function(callback) {
+    var writeStream = streamChannel.createEmptyWriteStream()
+    
+    writeStream.write('ignored data')
+
+    writeStream.prepareWrite(function(streamClosed, writer) {
+      should.exist(streamClosed)
+      should.not.exist(writer)
+
+      callback(null)
+    })
+
+    should.exist(writeStream.isClosed())
+  })
+})
+
