@@ -6,7 +6,7 @@
   },
   "name": "quiver-stream-channel",
   "desription": "simple stream channel that is consistent and easy to use",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "homepage": "https://github.com/quiverjs/stream-channel",
   "repository": {
     "url": "git@github.com:quiverjs/stream-channel.git"
