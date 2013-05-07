@@ -1,4 +1,6 @@
 
+"use strict"
+
 var should = require('should')
 var streamChannel = require('../lib/stream-channel')
 var createChannel = streamChannel.createStreamChannel
