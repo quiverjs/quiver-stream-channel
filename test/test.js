@@ -13,104 +13,140 @@ var guardCallback = function(callback) {
   }
 }
 
-describe('simple stream', function() {
-  describe('compatibility test with primitive stream', function() {
+describe('compatibility test with primitive stream', function() {
 
-    it('read write write read read closeWrite', function(callback) {
-      var channel = createChannel()
-      var readStream = channel.readStream
-      var writeStream = channel.writeStream
+  it('read write write read read closeWrite', function(callback) {
+    var channel = createChannel()
+    var readStream = channel.readStream
+    var writeStream = channel.writeStream
 
-      var firstData = 'foo'
-      var secondData = 'bar'
-      var closeErr = 'error'
+    var firstData = 'foo'
+    var secondData = 'bar'
+    var closeErr = 'error'
 
-      // 1
-      readStream.read(guardCallback(function(streamClosed, data) {
-        should.not.exist(streamClosed)
-        data.should.equal(firstData)
-        
-        // 3
-        writeStream.prepareWrite(guardCallback(function(streamClosed, writer) {
-
-          should.not.exist(streamClosed)
-          writer.should.be.a('function')
-
-          writer(null, secondData)
-        }))
-
-        // 4
-        readStream.read(guardCallback(function(streamClosed, data) {
-          should.not.exist(streamClosed)
-          data.should.equal(secondData)
-
-          // 5
-          readStream.read(guardCallback(function(streamClosed, data) {
-            should.exist(streamClosed)
-            streamClosed.err.should.equal(closeErr)
-            should.not.exist(data)
-
-            callback(null)
-          }))
-
-          // 6
-          writeStream.closeWrite(closeErr)
-        }))
-      }))
-
-      // 2
+    // 1
+    readStream.read(guardCallback(function(streamClosed, data) {
+      should.not.exist(streamClosed)
+      data.should.equal(firstData)
+      
+      // 3
       writeStream.prepareWrite(guardCallback(function(streamClosed, writer) {
+
         should.not.exist(streamClosed)
         writer.should.be.a('function')
 
-        writer(null, firstData)
+        writer(null, secondData)
       }))
-    })
+
+      // 4
+      readStream.read(guardCallback(function(streamClosed, data) {
+        should.not.exist(streamClosed)
+        data.should.equal(secondData)
+
+        // 5
+        readStream.read(guardCallback(function(streamClosed, data) {
+          should.exist(streamClosed)
+          streamClosed.err.should.equal(closeErr)
+          should.not.exist(data)
+
+          callback(null)
+        }))
+
+        // 6
+        writeStream.closeWrite(closeErr)
+      }))
+    }))
+
+    // 2
+    writeStream.prepareWrite(guardCallback(function(streamClosed, writer) {
+      should.not.exist(streamClosed)
+      writer.should.be.a('function')
+
+      writer(null, firstData)
+    }))
   })
+})
 
-  describe('simple stream extension test', function() {
-    it('should be able to write multiple times', function(callback) {
-      var channel = createChannel()
-      var readStream = channel.readStream
-      var writeStream = channel.writeStream
+describe('simple stream extension test', function() {
+  it('should be able to write multiple times', function(callback) {
+    var channel = createChannel()
+    var readStream = channel.readStream
+    var writeStream = channel.writeStream
 
-      var firstData = 'foo'
-      var secondData = 'bar'
-      var thirdData = 'baz'
-      var fourthData = 'blah'
-      var closeErr = 'error'
+    var firstData = 'foo'
+    var secondData = 'bar'
+    var thirdData = 'baz'
+    var fourthData = 'blah'
+    var closeErr = 'error'
 
-      writeStream.write(firstData)
-      writeStream.write(secondData)
+    writeStream.write(firstData)
+    writeStream.write(secondData)
+
+    readStream.read(guardCallback(function(streamClosed, data) {
+      should.not.exist(streamClosed)
+      data.should.equal(firstData)
 
       readStream.read(guardCallback(function(streamClosed, data) {
         should.not.exist(streamClosed)
-        data.should.equal(firstData)
+        data.should.equal(secondData)
 
         readStream.read(guardCallback(function(streamClosed, data) {
           should.not.exist(streamClosed)
-          data.should.equal(secondData)
+          data.should.equal(thirdData)
 
+          readStream.closeRead(closeErr)
+
+          callback(null)
           readStream.read(guardCallback(function(streamClosed, data) {
-            should.not.exist(streamClosed)
-            data.should.equal(thirdData)
-
-            readStream.closeRead(closeErr)
-
-            callback(null)
-            readStream.read(guardCallback(function(streamClosed, data) {
-              streamClosed.err.should.equal(closeErr)
-              should.not.exist(data)
-            }))
-          }))
-
-          writeStream.write(thirdData)
-          writeStream.prepareWrite(function(streamClosed, writer) {
             streamClosed.err.should.equal(closeErr)
-            should.not.exist(writer)
-          })
+            should.not.exist(data)
+          }))
         }))
+
+        writeStream.write(thirdData)
+        writeStream.prepareWrite(function(streamClosed, writer) {
+          streamClosed.err.should.equal(closeErr)
+          should.not.exist(writer)
+        })
       }))
+    }))
+  })
+})
+
+describe('close stream test', function() {
+  it('read stream should close correctly', function(callback) {
+    var channel = createChannel()
+    var readStream = channel.readStream
+    var writeStream = channel.writeStream
+
+    readStream.isClosed().should.equal(false)
+    writeStream.isClosed().should.equal(false)
+
+    readStream.closeRead()
+    readStream.isClosed().should.equal(true)
+
+    writeStream.prepareWrite(function(streamClosed) {
+      should.exist(streamClosed)
+      writeStream.isClosed().should.equal(true)
+      callback()
+    })
+  })
+
+  it('write stream should close correctly', function(callback) {
+    var channel = createChannel()
+    var readStream = channel.readStream
+    var writeStream = channel.writeStream
+
+    readStream.isClosed().should.equal(false)
+    writeStream.isClosed().should.equal(false)
+
+    writeStream.closeWrite()
+    writeStream.isClosed().should.equal(true)
+
+    readStream.read(function(streamClosed) {
+      should.exist(streamClosed)
+      readStream.isClosed().should.equal(true)
+      callback()
     })
   })
 })
