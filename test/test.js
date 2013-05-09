@@ -122,14 +122,14 @@ describe('close stream test', function() {
     readStream.isClosed().should.equal(false)
     writeStream.isClosed().should.equal(false)
 
-    readStream.closeRead()
-    readStream.isClosed().should.equal(true)
-
     writeStream.prepareWrite(function(streamClosed) {
       should.exist(streamClosed)
       writeStream.isClosed().should.equal(true)
       callback()
     })
+    
+    readStream.closeRead()
+    readStream.isClosed().should.equal(true)
   })
 
   it('write stream should close correctly', function(callback) {
@@ -140,14 +140,14 @@ describe('close stream test', function() {
     readStream.isClosed().should.equal(false)
     writeStream.isClosed().should.equal(false)
 
-    writeStream.closeWrite()
-    writeStream.isClosed().should.equal(true)
-
     readStream.read(function(streamClosed) {
       should.exist(streamClosed)
       readStream.isClosed().should.equal(true)
       callback()
     })
+
+    writeStream.closeWrite()
+    writeStream.isClosed().should.equal(true)
   })
 })
 
