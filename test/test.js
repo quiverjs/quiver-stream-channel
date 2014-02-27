@@ -1,5 +1,5 @@
 
-"use strict"
+'use strict'
 
 var should = require('should')
 var streamChannel = require('../lib/stream-channel')
@@ -33,7 +33,7 @@ describe('compatibility test with primitive stream', function() {
       writeStream.prepareWrite(guardCallback(function(streamClosed, writer) {
 
         should.not.exist(streamClosed)
-        writer.should.be.a('function')
+        writer.should.be.a.Function
 
         writer(null, secondData)
       }))
@@ -60,7 +60,7 @@ describe('compatibility test with primitive stream', function() {
     // 2
     writeStream.prepareWrite(guardCallback(function(streamClosed, writer) {
       should.not.exist(streamClosed)
-      writer.should.be.a('function')
+      writer.should.be.a.Function
 
       writer(null, firstData)
     }))
