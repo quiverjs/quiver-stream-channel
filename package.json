@@ -6,18 +6,19 @@
   },
   "name": "quiver-stream-channel",
   "desription": "simple stream channel that is consistent and easy to use",
-  "version": "0.0.12",
+  "version": "1.0.0",
   "homepage": "https://github.com/quiverjs/stream-channel",
   "repository": {
     "url": "git@github.com:quiverjs/stream-channel.git"
   },
   "dependencies": {
-    "quiver-object": "~0.0.1",
-    "quiver-primitive-stream": "~0.0.4"
+    "quiver-object": "~1.0.0"
   },
   "devDependencies": {
-    "mocha": "~1.17.1",
-    "should": "~3.1.2"
+    "gulp": "^3.8.1",
+    "mocha": "^1.20.1",
+    "should": "^4.0.4",
+    "gulp-traceur": "^0.7.0"
   },
   "bugs": {
     "url": "https://github.com/quiverjs/stream-channel/issues",
@@ -27,7 +28,7 @@
     "type": "MIT",
     "url": "https://raw.github.com/quiverjs/license/master/LICENSE"
   },
-  "main": "./lib/stream-channel",
+  "main": "./index.js",
   "scripts": {
     "test": "make test"
   }
