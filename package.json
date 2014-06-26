@@ -12,13 +12,13 @@
     "url": "git@github.com:quiverjs/stream-channel.git"
   },
   "dependencies": {
-    "quiver-object": "~1.0.0"
+    "traceur": "0.0.49"
   },
   "devDependencies": {
     "gulp": "^3.8.1",
+    "gulp-traceur": "^0.7.0",
     "mocha": "^1.20.1",
-    "should": "^4.0.4",
-    "gulp-traceur": "^0.7.0"
+    "should": "^4.0.4"
   },
   "bugs": {
     "url": "https://github.com/quiverjs/stream-channel/issues",

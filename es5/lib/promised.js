@@ -53,7 +53,7 @@ var promisedWriteStream = (function(simpleWriteStream) {
   });
 });
 var promisedChannel = (function() {
-  var $__0 = $traceurRuntime.assertObject(primitiveChannel()),
+  var $__0 = $traceurRuntime.assertObject(simpleChannel()),
       simpleRead = $__0.readStream,
       simpleWrite = $__0.writeStream;
   var readStream = promisedReadStream(simpleRead);
