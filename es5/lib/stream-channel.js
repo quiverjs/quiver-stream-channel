@@ -24,15 +24,6 @@ Object.defineProperties(exports, {
   promisedChannel: {get: function() {
       return promisedChannel;
     }},
-  emptyReadStream: {get: function() {
-      return emptyReadStream;
-    }},
-  emptyWriteStream: {get: function() {
-      return emptyWriteStream;
-    }},
-  emptyStreamable: {get: function() {
-      return emptyStreamable;
-    }},
   __esModule: {value: true}
 });
 var primitiveChannel = $traceurRuntime.assertObject(require('./primitive.js')).primitiveChannel;
@@ -44,9 +35,5 @@ var $__0 = $traceurRuntime.assertObject(require('./promised.js')),
     promisedReadStream = $__0.promisedReadStream,
     promisedWriteStream = $__0.promisedWriteStream,
     promisedChannel = $__0.promisedChannel;
-var $__0 = $traceurRuntime.assertObject(require('./empty.js')),
-    emptyReadStream = $__0.emptyReadStream,
-    emptyWriteStream = $__0.emptyWriteStream,
-    emptyStreamable = $__0.emptyStreamable;
 var createChannel = promisedChannel;
 ;
