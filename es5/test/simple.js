@@ -1,23 +1,25 @@
 "use strict";
-require('traceur');
-var simpleChannel = $traceurRuntime.assertObject(require('../lib/simple.js')).simpleChannel;
+var $__traceur_64_0_46_0_46_58__,
+    $___46__46__47_lib_47_simple_46_js__;
+($__traceur_64_0_46_0_46_58__ = require("traceur"), $__traceur_64_0_46_0_46_58__ && $__traceur_64_0_46_0_46_58__.__esModule && $__traceur_64_0_46_0_46_58__ || {default: $__traceur_64_0_46_0_46_58__});
+var simpleChannel = ($___46__46__47_lib_47_simple_46_js__ = require("../lib/simple.js"), $___46__46__47_lib_47_simple_46_js__ && $___46__46__47_lib_47_simple_46_js__.__esModule && $___46__46__47_lib_47_simple_46_js__ || {default: $___46__46__47_lib_47_simple_46_js__}).simpleChannel;
 var should = require('should');
 var guard = (function(callback) {
   var called = false;
   return (function() {
     for (var args = [],
-        $__0 = 0; $__0 < arguments.length; $__0++)
-      args[$__0] = arguments[$__0];
+        $__1 = 0; $__1 < arguments.length; $__1++)
+      args[$__1] = arguments[$__1];
     if (called)
       throw new Error('callback is called multiple times');
-    callback.apply(null, $traceurRuntime.toObject(args));
+    callback.apply(null, $traceurRuntime.spread(args));
   });
 });
 describe('compatibility test with primitive stream', (function() {
   it('read write write read read closeWrite', (function(callback) {
-    var $__1 = $traceurRuntime.assertObject(simpleChannel()),
-        readStream = $__1.readStream,
-        writeStream = $__1.writeStream;
+    var $__2 = simpleChannel(),
+        readStream = $__2.readStream,
+        writeStream = $__2.writeStream;
     var firstData = 'foo';
     var secondData = 'bar';
     var closeErr = 'error';
@@ -50,9 +52,9 @@ describe('compatibility test with primitive stream', (function() {
 }));
 describe('simple stream extension test', (function() {
   it('should be able to write multiple times', (function(callback) {
-    var $__1 = $traceurRuntime.assertObject(simpleChannel()),
-        readStream = $__1.readStream,
-        writeStream = $__1.writeStream;
+    var $__2 = simpleChannel(),
+        readStream = $__2.readStream,
+        writeStream = $__2.writeStream;
     var firstData = 'foo';
     var secondData = 'bar';
     var thirdData = 'baz';

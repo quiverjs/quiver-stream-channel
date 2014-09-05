@@ -1,23 +1,25 @@
 "use strict";
-require('traceur');
-var primitiveChannel = $traceurRuntime.assertObject(require('../lib/primitive.js')).primitiveChannel;
+var $__traceur_64_0_46_0_46_58__,
+    $___46__46__47_lib_47_primitive_46_js__;
+($__traceur_64_0_46_0_46_58__ = require("traceur"), $__traceur_64_0_46_0_46_58__ && $__traceur_64_0_46_0_46_58__.__esModule && $__traceur_64_0_46_0_46_58__ || {default: $__traceur_64_0_46_0_46_58__});
+var primitiveChannel = ($___46__46__47_lib_47_primitive_46_js__ = require("../lib/primitive.js"), $___46__46__47_lib_47_primitive_46_js__ && $___46__46__47_lib_47_primitive_46_js__.__esModule && $___46__46__47_lib_47_primitive_46_js__ || {default: $___46__46__47_lib_47_primitive_46_js__}).primitiveChannel;
 var should = require('should');
 var guard = (function(callback) {
   var called = false;
   return (function() {
     for (var args = [],
-        $__0 = 0; $__0 < arguments.length; $__0++)
-      args[$__0] = arguments[$__0];
+        $__1 = 0; $__1 < arguments.length; $__1++)
+      args[$__1] = arguments[$__1];
     if (called)
       throw new Error('callback is called multiple times');
-    callback.apply(null, $traceurRuntime.toObject(args));
+    callback.apply(null, $traceurRuntime.spread(args));
   });
 });
 describe('different correct read write sequences', (function() {
   it('read write write read read closeWrite', (function(callback) {
-    var $__1 = $traceurRuntime.assertObject(primitiveChannel()),
-        readStream = $__1.readStream,
-        writeStream = $__1.writeStream;
+    var $__2 = primitiveChannel(),
+        readStream = $__2.readStream,
+        writeStream = $__2.writeStream;
     var firstData = 'foo';
     var secondData = 'bar';
     var closeErr = 'error';
@@ -48,9 +50,9 @@ describe('different correct read write sequences', (function() {
     })));
   }));
   it('write read read write closeRead write', (function(callback) {
-    var $__1 = $traceurRuntime.assertObject(primitiveChannel()),
-        readStream = $__1.readStream,
-        writeStream = $__1.writeStream;
+    var $__2 = primitiveChannel(),
+        readStream = $__2.readStream,
+        writeStream = $__2.writeStream;
     var firstData = 'foo';
     var secondData = 'bar';
     var closeErr = 'error';
@@ -83,7 +85,7 @@ describe('different correct read write sequences', (function() {
 }));
 describe('inconsistent states', (function() {
   it('when read is called twice', (function() {
-    var readStream = $traceurRuntime.assertObject(primitiveChannel()).readStream;
+    var readStream = primitiveChannel().readStream;
     ;
     ((function() {
       readStream.read(function(streamClosed, buffer) {

@@ -11,8 +11,10 @@ Object.defineProperties(exports, {
     }},
   __esModule: {value: true}
 });
-var createPromise = $traceurRuntime.assertObject(require('quiver-promise')).createPromise;
-var simpleChannel = $traceurRuntime.assertObject(require('./simple.js')).simpleChannel;
+var $__quiver_45_promise__,
+    $__simple_46_js__;
+var createPromise = ($__quiver_45_promise__ = require("quiver-promise"), $__quiver_45_promise__ && $__quiver_45_promise__.__esModule && $__quiver_45_promise__ || {default: $__quiver_45_promise__}).createPromise;
+var simpleChannel = ($__simple_46_js__ = require("./simple.js"), $__simple_46_js__ && $__simple_46_js__.__esModule && $__simple_46_js__ || {default: $__simple_46_js__}).simpleChannel;
 var promisedReadStream = (function(simpleReadStream) {
   return ({
     read: (function() {
@@ -53,9 +55,9 @@ var promisedWriteStream = (function(simpleWriteStream) {
   });
 });
 var promisedChannel = (function() {
-  var $__0 = $traceurRuntime.assertObject(simpleChannel()),
-      simpleRead = $__0.readStream,
-      simpleWrite = $__0.writeStream;
+  var $__2 = simpleChannel(),
+      simpleRead = $__2.readStream,
+      simpleWrite = $__2.writeStream;
   var readStream = promisedReadStream(simpleRead);
   var writeStream = promisedWriteStream(simpleWrite);
   return {

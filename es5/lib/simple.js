@@ -11,7 +11,8 @@ Object.defineProperties(exports, {
     }},
   __esModule: {value: true}
 });
-var primitiveChannel = $traceurRuntime.assertObject(require('./primitive.js')).primitiveChannel;
+var $__primitive_46_js__;
+var primitiveChannel = ($__primitive_46_js__ = require("./primitive.js"), $__primitive_46_js__ && $__primitive_46_js__.__esModule && $__primitive_46_js__ || {default: $__primitive_46_js__}).primitiveChannel;
 var throwInconsistentStateError = (function() {
   throw new Error('critical bug: inconsistent write stream state');
 });
@@ -185,9 +186,9 @@ var simpleWriteStream = (function(primitiveWriteStream) {
   return writeStream;
 });
 var simpleChannel = (function() {
-  var $__0 = $traceurRuntime.assertObject(primitiveChannel()),
-      primitiveRead = $__0.readStream,
-      primitiveWrite = $__0.writeStream;
+  var $__1 = primitiveChannel(),
+      primitiveRead = $__1.readStream,
+      primitiveWrite = $__1.writeStream;
   var readStream = simpleReadStream(primitiveRead);
   var writeStream = simpleWriteStream(primitiveWrite);
   return {

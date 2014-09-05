@@ -5,7 +5,7 @@ Object.defineProperties(exports, {
     }},
   __esModule: {value: true}
 });
-var nextTick = $traceurRuntime.assertObject(process).nextTick;
+var nextTick = process.nextTick;
 var primitiveChannel = (function() {
   var readStream = {};
   var writeStream = {};

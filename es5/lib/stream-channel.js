@@ -26,14 +26,17 @@ Object.defineProperties(exports, {
     }},
   __esModule: {value: true}
 });
-var primitiveChannel = $traceurRuntime.assertObject(require('./primitive.js')).primitiveChannel;
-var $__0 = $traceurRuntime.assertObject(require('./simple.js')),
-    simpleReadStream = $__0.simpleReadStream,
-    simpleWriteStream = $__0.simpleWriteStream,
-    simpleChannel = $__0.simpleChannel;
-var $__0 = $traceurRuntime.assertObject(require('./promised.js')),
-    promisedReadStream = $__0.promisedReadStream,
-    promisedWriteStream = $__0.promisedWriteStream,
-    promisedChannel = $__0.promisedChannel;
+var $__primitive_46_js__,
+    $__simple_46_js__,
+    $__promised_46_js__;
+var primitiveChannel = ($__primitive_46_js__ = require("./primitive.js"), $__primitive_46_js__ && $__primitive_46_js__.__esModule && $__primitive_46_js__ || {default: $__primitive_46_js__}).primitiveChannel;
+var $__1 = ($__simple_46_js__ = require("./simple.js"), $__simple_46_js__ && $__simple_46_js__.__esModule && $__simple_46_js__ || {default: $__simple_46_js__}),
+    simpleReadStream = $__1.simpleReadStream,
+    simpleWriteStream = $__1.simpleWriteStream,
+    simpleChannel = $__1.simpleChannel;
+var $__2 = ($__promised_46_js__ = require("./promised.js"), $__promised_46_js__ && $__promised_46_js__.__esModule && $__promised_46_js__ || {default: $__promised_46_js__}),
+    promisedReadStream = $__2.promisedReadStream,
+    promisedWriteStream = $__2.promisedWriteStream,
+    promisedChannel = $__2.promisedChannel;
 var createChannel = promisedChannel;
 ;
