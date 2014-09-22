@@ -6,21 +6,19 @@
   },
   "name": "quiver-stream-channel",
   "desription": "simple stream channel that is consistent and easy to use",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "homepage": "https://github.com/quiverjs/stream-channel",
   "repository": {
     "url": "git@github.com:quiverjs/stream-channel.git"
   },
   "dependencies": {
-    "traceur": "~0.0.60",
-    "quiver-promise": "~0.1.0"
+    "traceur": "~0.0.65",
+    "quiver-promise": "~0.1.2"
   },
   "devDependencies": {
     "chai": "^1.9.1",
-    "gulp": "^3.8.7",
     "mocha": "^1.21.4",
-    "should": "^4.0.4",
-    "gulp-traceur": "^0.13.0"
+    "should": "^4.0.4"
   },
   "bugs": {
     "url": "https://github.com/quiverjs/stream-channel/issues",
