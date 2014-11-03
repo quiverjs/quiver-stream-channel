@@ -1,12 +1,11 @@
 "use strict";
-var $__traceur_64_0_46_0_46_6__,
-    $___46__46__47_lib_47_promised_46_js__,
-    $__quiver_45_promise__;
-($__traceur_64_0_46_0_46_6__ = require("traceur"), $__traceur_64_0_46_0_46_6__ && $__traceur_64_0_46_0_46_6__.__esModule && $__traceur_64_0_46_0_46_6__ || {default: $__traceur_64_0_46_0_46_6__});
-var promisedChannel = ($___46__46__47_lib_47_promised_46_js__ = require("../lib/promised.js"), $___46__46__47_lib_47_promised_46_js__ && $___46__46__47_lib_47_promised_46_js__.__esModule && $___46__46__47_lib_47_promised_46_js__ || {default: $___46__46__47_lib_47_promised_46_js__}).promisedChannel;
-var enableDebug = ($__quiver_45_promise__ = require("quiver-promise"), $__quiver_45_promise__ && $__quiver_45_promise__.__esModule && $__quiver_45_promise__ || {default: $__quiver_45_promise__}).enableDebug;
-var should = require('should');
-enableDebug();
+var $__traceur_64_0_46_0_46_7__,
+    $__chai__,
+    $___46__46__47_lib_47_promised__;
+($__traceur_64_0_46_0_46_7__ = require("traceur"), $__traceur_64_0_46_0_46_7__ && $__traceur_64_0_46_0_46_7__.__esModule && $__traceur_64_0_46_0_46_7__ || {default: $__traceur_64_0_46_0_46_7__});
+var chai = ($__chai__ = require("chai"), $__chai__ && $__chai__.__esModule && $__chai__ || {default: $__chai__}).default;
+var promisedChannel = ($___46__46__47_lib_47_promised__ = require("../lib/promised"), $___46__46__47_lib_47_promised__ && $___46__46__47_lib_47_promised__.__esModule && $___46__46__47_lib_47_promised__ || {default: $___46__46__47_lib_47_promised__}).promisedChannel;
+var should = chai.should();
 describe('promised channel test', (function() {
   it('read write write read read closeWrite', (function(callback) {
     var $__2 = promisedChannel(),
@@ -15,18 +14,18 @@ describe('promised channel test', (function() {
     var firstData = 'foo';
     var secondData = 'bar';
     var closeErr = 'error';
-    var promise1 = readStream.read().then((function($__3) {
+    readStream.read().then((function($__3) {
       var $__4 = $__3,
           closed = $__4.closed,
           data = $__4.data;
-      should.not.exists(closed);
+      should.not.exist(closed);
       data.should.equal(firstData);
-      var promise1 = writeStream.prepareWrite().then((function($__5) {
+      writeStream.prepareWrite().then((function($__5) {
         var closed = $__5.closed;
-        should.not.exists(closed);
+        should.not.exist(closed);
         writeStream.write(secondData);
       }));
-      var promise2 = readStream.read().then((function($__5) {
+      readStream.read().then((function($__5) {
         var $__6 = $__5,
             closed = $__6.closed,
             data = $__6.data;
@@ -36,18 +35,18 @@ describe('promised channel test', (function() {
           var $__8 = $__7,
               closed = $__8.closed,
               data = $__8.data;
-          should.exists(closed);
-          should.not.exists(data);
+          should.exist(closed);
+          should.not.exist(data);
           callback();
         }));
         writeStream.closeWrite();
       }));
-    }));
-    var promise2 = writeStream.prepareWrite().then((function($__3) {
+    })).catch(callback);
+    writeStream.prepareWrite().then((function($__3) {
       var closed = $__3.closed;
-      should.not.exists(closed);
+      should.not.exist(closed);
       writeStream.write(firstData);
-    }));
+    })).catch(callback);
   }));
   it('should be able to write multiple times', (function(callback) {
     var $__2 = promisedChannel(),
@@ -90,5 +89,22 @@ describe('promised channel test', (function() {
         }));
       }));
     }));
+  }));
+  it('close read while reading', (function(callback) {
+    var $__2 = promisedChannel(),
+        readStream = $__2.readStream,
+        writeStream = $__2.writeStream;
+    readStream.read().then((function($__3) {
+      var $__4 = $__3,
+          closed = $__4.closed,
+          data = $__4.data;
+      console.log('read callback triggered');
+      callback(new Error('should not get callback'));
+    }));
+    readStream.closeRead();
+    writeStream.prepareWrite().then((function($__3) {
+      var closed = $__3.closed;
+      callback();
+    })).catch(callback);
   }));
 }));

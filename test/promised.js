@@ -1,10 +1,8 @@
 import 'traceur'
-import { promisedChannel } from '../lib/promised.js'
-import { enableDebug } from 'quiver-promise'
+import chai from 'chai'
+import { promisedChannel } from '../lib/promised'
 
-var should = require('should')
-
-enableDebug()
+var should = chai.should()
 
 describe('promised channel test', () => {
   it('read write write read read closeWrite', (callback) => {
@@ -15,26 +13,26 @@ describe('promised channel test', () => {
     var closeErr = 'error'
 
     // 1
-    var promise1 = readStream.read().then(({ closed, data }) => {
-      should.not.exists(closed)
+    readStream.read().then(({ closed, data }) => {
+      should.not.exist(closed)
       data.should.equal(firstData)
 
       // 3
-      var promise1 = writeStream.prepareWrite()
+      writeStream.prepareWrite()
       .then(({ closed }) => {
-        should.not.exists(closed)
+        should.not.exist(closed)
         writeStream.write(secondData)
       })
 
       // 4
-      var promise2 = readStream.read().then(({ closed, data }) => {
+      readStream.read().then(({ closed, data }) => {
         should.not.exist(closed)
         data.should.equal(secondData)
 
         // 5
         var promised21 = readStream.read().then(({ closed, data }) => {
-          should.exists(closed)
-          should.not.exists(data)
+          should.exist(closed)
+          should.not.exist(data)
 
           callback()
         })
@@ -43,14 +41,16 @@ describe('promised channel test', () => {
         writeStream.closeWrite()
       })
     })
+    .catch(callback)
 
     // 2
-    var promise2 = writeStream.prepareWrite()
+    writeStream.prepareWrite()
     .then(({ closed }) => {
-      should.not.exists(closed)
+      should.not.exist(closed)
 
       writeStream.write(firstData)
     })
+    .catch(callback)
   })
 
   it('should be able to write multiple times', callback => {
@@ -91,5 +91,22 @@ describe('promised channel test', () => {
         })
       })
     })
+  })
+
+  it('close read while reading', callback => {
+    var { readStream, writeStream } = promisedChannel()
+
+    readStream.read().then(({closed, data}) => {
+      console.log('read callback triggered')
+      callback(new Error('should not get callback'))
+    })
+
+    readStream.closeRead()
+
+    writeStream.prepareWrite().then(({closed}) => {
+      //should.exist(closed)
+      callback()
+    })
+    .catch(callback)
   })
 })

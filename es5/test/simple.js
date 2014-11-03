@@ -1,15 +1,17 @@
 "use strict";
-var $__traceur_64_0_46_0_46_6__,
-    $___46__46__47_lib_47_simple_46_js__;
-($__traceur_64_0_46_0_46_6__ = require("traceur"), $__traceur_64_0_46_0_46_6__ && $__traceur_64_0_46_0_46_6__.__esModule && $__traceur_64_0_46_0_46_6__ || {default: $__traceur_64_0_46_0_46_6__});
-var simpleChannel = ($___46__46__47_lib_47_simple_46_js__ = require("../lib/simple.js"), $___46__46__47_lib_47_simple_46_js__ && $___46__46__47_lib_47_simple_46_js__.__esModule && $___46__46__47_lib_47_simple_46_js__ || {default: $___46__46__47_lib_47_simple_46_js__}).simpleChannel;
-var should = require('should');
+var $__traceur_64_0_46_0_46_7__,
+    $__chai__,
+    $___46__46__47_lib_47_simple__;
+($__traceur_64_0_46_0_46_7__ = require("traceur"), $__traceur_64_0_46_0_46_7__ && $__traceur_64_0_46_0_46_7__.__esModule && $__traceur_64_0_46_0_46_7__ || {default: $__traceur_64_0_46_0_46_7__});
+var chai = ($__chai__ = require("chai"), $__chai__ && $__chai__.__esModule && $__chai__ || {default: $__chai__}).default;
+var simpleChannel = ($___46__46__47_lib_47_simple__ = require("../lib/simple"), $___46__46__47_lib_47_simple__ && $___46__46__47_lib_47_simple__.__esModule && $___46__46__47_lib_47_simple__ || {default: $___46__46__47_lib_47_simple__}).simpleChannel;
+var should = chai.should();
 var guard = (function(callback) {
   var called = false;
   return (function() {
     for (var args = [],
-        $__1 = 0; $__1 < arguments.length; $__1++)
-      args[$__1] = arguments[$__1];
+        $__2 = 0; $__2 < arguments.length; $__2++)
+      args[$__2] = arguments[$__2];
     if (called)
       throw new Error('callback is called multiple times');
     callback.apply(null, $traceurRuntime.spread(args));
@@ -17,9 +19,9 @@ var guard = (function(callback) {
 });
 describe('compatibility test with primitive stream', (function() {
   it('read write write read read closeWrite', (function(callback) {
-    var $__2 = simpleChannel(),
-        readStream = $__2.readStream,
-        writeStream = $__2.writeStream;
+    var $__3 = simpleChannel(),
+        readStream = $__3.readStream,
+        writeStream = $__3.writeStream;
     var firstData = 'foo';
     var secondData = 'bar';
     var closeErr = 'error';
@@ -52,9 +54,9 @@ describe('compatibility test with primitive stream', (function() {
 }));
 describe('simple stream extension test', (function() {
   it('should be able to write multiple times', (function(callback) {
-    var $__2 = simpleChannel(),
-        readStream = $__2.readStream,
-        writeStream = $__2.writeStream;
+    var $__3 = simpleChannel(),
+        readStream = $__3.readStream,
+        writeStream = $__3.writeStream;
     var firstData = 'foo';
     var secondData = 'bar';
     var thirdData = 'baz';

@@ -1,15 +1,17 @@
 "use strict";
-var $__traceur_64_0_46_0_46_6__,
-    $___46__46__47_lib_47_primitive_46_js__;
-($__traceur_64_0_46_0_46_6__ = require("traceur"), $__traceur_64_0_46_0_46_6__ && $__traceur_64_0_46_0_46_6__.__esModule && $__traceur_64_0_46_0_46_6__ || {default: $__traceur_64_0_46_0_46_6__});
-var primitiveChannel = ($___46__46__47_lib_47_primitive_46_js__ = require("../lib/primitive.js"), $___46__46__47_lib_47_primitive_46_js__ && $___46__46__47_lib_47_primitive_46_js__.__esModule && $___46__46__47_lib_47_primitive_46_js__ || {default: $___46__46__47_lib_47_primitive_46_js__}).primitiveChannel;
-var should = require('should');
+var $__traceur_64_0_46_0_46_7__,
+    $__chai__,
+    $___46__46__47_lib_47_primitive__;
+($__traceur_64_0_46_0_46_7__ = require("traceur"), $__traceur_64_0_46_0_46_7__ && $__traceur_64_0_46_0_46_7__.__esModule && $__traceur_64_0_46_0_46_7__ || {default: $__traceur_64_0_46_0_46_7__});
+var chai = ($__chai__ = require("chai"), $__chai__ && $__chai__.__esModule && $__chai__ || {default: $__chai__}).default;
+var primitiveChannel = ($___46__46__47_lib_47_primitive__ = require("../lib/primitive"), $___46__46__47_lib_47_primitive__ && $___46__46__47_lib_47_primitive__.__esModule && $___46__46__47_lib_47_primitive__ || {default: $___46__46__47_lib_47_primitive__}).primitiveChannel;
+var should = chai.should();
 var guard = (function(callback) {
   var called = false;
   return (function() {
     for (var args = [],
-        $__1 = 0; $__1 < arguments.length; $__1++)
-      args[$__1] = arguments[$__1];
+        $__2 = 0; $__2 < arguments.length; $__2++)
+      args[$__2] = arguments[$__2];
     if (called)
       throw new Error('callback is called multiple times');
     callback.apply(null, $traceurRuntime.spread(args));
@@ -17,9 +19,9 @@ var guard = (function(callback) {
 });
 describe('different correct read write sequences', (function() {
   it('read write write read read closeWrite', (function(callback) {
-    var $__2 = primitiveChannel(),
-        readStream = $__2.readStream,
-        writeStream = $__2.writeStream;
+    var $__3 = primitiveChannel(),
+        readStream = $__3.readStream,
+        writeStream = $__3.writeStream;
     var firstData = 'foo';
     var secondData = 'bar';
     var closeErr = 'error';
@@ -50,9 +52,9 @@ describe('different correct read write sequences', (function() {
     })));
   }));
   it('write read read write closeRead write', (function(callback) {
-    var $__2 = primitiveChannel(),
-        readStream = $__2.readStream,
-        writeStream = $__2.writeStream;
+    var $__3 = primitiveChannel(),
+        readStream = $__3.readStream,
+        writeStream = $__3.writeStream;
     var firstData = 'foo';
     var secondData = 'bar';
     var closeErr = 'error';

@@ -26,15 +26,15 @@ Object.defineProperties(exports, {
     }},
   __esModule: {value: true}
 });
-var $__primitive_46_js__,
-    $__simple_46_js__,
-    $__promised_46_js__;
-var primitiveChannel = ($__primitive_46_js__ = require("./primitive.js"), $__primitive_46_js__ && $__primitive_46_js__.__esModule && $__primitive_46_js__ || {default: $__primitive_46_js__}).primitiveChannel;
-var $__1 = ($__simple_46_js__ = require("./simple.js"), $__simple_46_js__ && $__simple_46_js__.__esModule && $__simple_46_js__ || {default: $__simple_46_js__}),
+var $__primitive__,
+    $__simple__,
+    $__promised__;
+var primitiveChannel = ($__primitive__ = require("./primitive"), $__primitive__ && $__primitive__.__esModule && $__primitive__ || {default: $__primitive__}).primitiveChannel;
+var $__1 = ($__simple__ = require("./simple"), $__simple__ && $__simple__.__esModule && $__simple__ || {default: $__simple__}),
     simpleReadStream = $__1.simpleReadStream,
     simpleWriteStream = $__1.simpleWriteStream,
     simpleChannel = $__1.simpleChannel;
-var $__2 = ($__promised_46_js__ = require("./promised.js"), $__promised_46_js__ && $__promised_46_js__.__esModule && $__promised_46_js__ || {default: $__promised_46_js__}),
+var $__2 = ($__promised__ = require("./promised"), $__promised__ && $__promised__.__esModule && $__promised__ || {default: $__promised__}),
     promisedReadStream = $__2.promisedReadStream,
     promisedWriteStream = $__2.promisedWriteStream,
     promisedChannel = $__2.promisedChannel;

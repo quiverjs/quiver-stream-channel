@@ -12,9 +12,9 @@ Object.defineProperties(exports, {
   __esModule: {value: true}
 });
 var $__quiver_45_promise__,
-    $__simple_46_js__;
+    $__simple__;
 var createPromise = ($__quiver_45_promise__ = require("quiver-promise"), $__quiver_45_promise__ && $__quiver_45_promise__.__esModule && $__quiver_45_promise__ || {default: $__quiver_45_promise__}).createPromise;
-var simpleChannel = ($__simple_46_js__ = require("./simple.js"), $__simple_46_js__ && $__simple_46_js__.__esModule && $__simple_46_js__ || {default: $__simple_46_js__}).simpleChannel;
+var simpleChannel = ($__simple__ = require("./simple"), $__simple__ && $__simple__.__esModule && $__simple__ || {default: $__simple__}).simpleChannel;
 var promisedReadStream = (function(simpleReadStream) {
   return ({
     read: (function() {

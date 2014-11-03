@@ -1,7 +1,8 @@
 import 'traceur'
-import { primitiveChannel } from '../lib/primitive.js'
+import chai from 'chai'
+import { primitiveChannel } from '../lib/primitive'
 
-var should = require('should')
+var should = chai.should()
 
 var guard = callback => {
   var called = false

@@ -1,7 +1,8 @@
 import 'traceur'
-import { simpleChannel } from '../lib/simple.js'
+import chai from 'chai'
+import { simpleChannel } from '../lib/simple'
 
-var should = require('should')
+var should = chai.should()
 
 var guard = callback => {
   var called = false
