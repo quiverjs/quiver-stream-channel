@@ -6,18 +6,18 @@
   },
   "name": "quiver-stream-channel",
   "desription": "simple stream channel that is consistent and easy to use",
-  "version": "1.2.1",
+  "version": "1.3.0",
   "homepage": "https://github.com/quiverjs/quiver-stream-channel",
   "repository": {
     "url": "git@github.com:quiverjs/quiver-stream-channel.git"
   },
   "dependencies": {
-    "traceur": "0.0.79",
-    "quiver-promise": "~1.0.0"
+    "traceur": "~0.0.81",
+    "quiver-promise": "~1.1.0"
   },
   "devDependencies": {
     "chai": "^1.10.0",
-    "mocha": "^2.0.1"
+    "mocha": "^2.1.0"
   },
   "bugs": {
     "url": "https://github.com/quiverjs/quiver-stream-channel/issues",
@@ -29,11 +29,10 @@
   },
   "main": "./index.js",
   "scripts": {
-    "test": "mocha es5/test",
-    "pretest": "npm run build",
-    "prepublish": "npm run build",
-    "build": "npm run build-lib && npm run build-test",
-    "build-lib": "traceur --dir lib es5/lib --modules commonjs",
-    "build-test": "traceur --dir test es5/test --modules commonjs"
+    "test": "make unit-test",
+    "prepublish": "make build"
+  },
+  "engines": {
+    "iojs": "^1.0.4"
   }
 }

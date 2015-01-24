@@ -2,4 +2,4 @@
 
 var traceur = require('traceur')
 
-module.exports = require('./es5/lib/stream-channel.js')
+module.exports = require('./out/lib/stream-channel.js')

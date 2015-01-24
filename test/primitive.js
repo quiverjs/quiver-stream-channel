@@ -2,10 +2,10 @@ import 'traceur'
 import chai from 'chai'
 import { primitiveChannel } from '../lib/primitive'
 
-var should = chai.should()
+let should = chai.should()
 
-var guard = callback => {
-  var called = false
+let guard = callback => {
+  let called = false
   return (...args) => {
     if(called) throw new Error('callback is called multiple times')
     callback(...args)
@@ -14,11 +14,11 @@ var guard = callback => {
 
 describe('different correct read write sequences', () => {
   it('read write write read read closeWrite', callback => {
-    var { readStream, writeStream } = primitiveChannel()
+    let { readStream, writeStream } = primitiveChannel()
 
-    var firstData = 'foo'
-    var secondData = 'bar'
-    var closeErr = 'error'
+    let firstData = 'foo'
+    let secondData = 'bar'
+    let closeErr = 'error'
 
     // 1
     readStream.read(guard((streamClosed, data) => {
@@ -62,11 +62,11 @@ describe('different correct read write sequences', () => {
   })
 
   it('write read read write closeRead write', callback => {
-    var { readStream, writeStream } = primitiveChannel()
+    let { readStream, writeStream } = primitiveChannel()
 
-    var firstData = 'foo'
-    var secondData = 'bar'
-    var closeErr = 'error'
+    let firstData = 'foo'
+    let secondData = 'bar'
+    let closeErr = 'error'
 
     // 1
     writeStream.prepareWrite(guard((streamClosed, writer) => {
@@ -112,7 +112,7 @@ describe('different correct read write sequences', () => {
 
 describe('inconsistent states', () => {
   it('when read is called twice', () => {
-    var { readStream } = primitiveChannel()
+    let { readStream } = primitiveChannel()
 
     ;(() => {
       readStream.read(function(streamClosed, buffer) {

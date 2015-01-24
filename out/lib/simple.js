@@ -13,19 +13,19 @@ Object.defineProperties(exports, {
 });
 var $__primitive__;
 var primitiveChannel = ($__primitive__ = require("./primitive"), $__primitive__ && $__primitive__.__esModule && $__primitive__ || {default: $__primitive__}).primitiveChannel;
-var throwInconsistentStateError = (function() {
+let throwInconsistentStateError = (function() {
   throw new Error('critical bug: inconsistent write stream state');
 });
-var simpleReadStream = (function(primitiveReadStream) {
-  var readStream = {};
-  var mStreamClosed = null;
-  var mReading = false;
+let simpleReadStream = (function(primitiveReadStream) {
+  let readStream = {};
+  let mStreamClosed = null;
+  let mReading = false;
   readStream.read = (function(callback) {
     if (mStreamClosed) {
       process.nextTick((function() {
         return callback(mStreamClosed);
       }));
-      return;
+      return ;
     }
     mReading = true;
     primitiveReadStream.read((function(readClosed, data) {
@@ -39,7 +39,7 @@ var simpleReadStream = (function(primitiveReadStream) {
   });
   readStream.closeRead = (function(err) {
     if (mStreamClosed)
-      return;
+      return ;
     mStreamClosed = {err: err};
     if (!mReading)
       primitiveReadStream.closeRead(err);
@@ -49,16 +49,16 @@ var simpleReadStream = (function(primitiveReadStream) {
   });
   return readStream;
 });
-var simpleWriteStream = (function(primitiveWriteStream) {
-  var writeStream = {};
-  var mPrimitiveWriter = null;
-  var mStreamClosed = null;
-  var mIsClosing = false;
-  var mIsClosed = false;
-  var mFlushingWrite = false;
-  var mWriteQueue = [];
-  var mWriteCallback = null;
-  var mWriter = (function(streamClosed, data) {
+let simpleWriteStream = (function(primitiveWriteStream) {
+  let writeStream = {};
+  let mPrimitiveWriter = null;
+  let mStreamClosed = null;
+  let mIsClosing = false;
+  let mIsClosed = false;
+  let mFlushingWrite = false;
+  let mWriteQueue = [];
+  let mWriteCallback = null;
+  let mWriter = (function(streamClosed, data) {
     if (!streamClosed && !data)
       throw new Error('must supply either a data or close stream to writer');
     if (data)
@@ -66,16 +66,16 @@ var simpleWriteStream = (function(primitiveWriteStream) {
     if (streamClosed)
       writeStream.closeWrite(streamClosed.err);
   });
-  var callWriteCallback = (function(streamClosed, writer) {
-    var writeCallback = mWriteCallback;
+  let callWriteCallback = (function(streamClosed, writer) {
+    let writeCallback = mWriteCallback;
     mWriteCallback = null;
     writeCallback(streamClosed, writer);
   });
-  var doPrimitiveWrite = (function(writeClosed, data) {
+  let doPrimitiveWrite = (function(writeClosed, data) {
     mPrimitiveWriter(writeClosed, data);
     mPrimitiveWriter = null;
   });
-  var handleReadClosed = (function(readClosed) {
+  let handleReadClosed = (function(readClosed) {
     mWriteQueue = [];
     mIsClosed = true;
     if (!mStreamClosed)
@@ -84,12 +84,12 @@ var simpleWriteStream = (function(primitiveWriteStream) {
       callWriteCallback(readClosed);
     }
   });
-  var flushNextWrite = (function() {
+  let flushNextWrite = (function() {
     if (mWriteQueue.length > 0) {
       primitiveWriteStream.prepareWrite((function(readClosed, writer) {
         if (readClosed)
           return handleReadClosed(readClosed);
-        var data = mWriteQueue.shift();
+        let data = mWriteQueue.shift();
         writer(null, data);
         flushNextWrite();
       }));
@@ -97,7 +97,7 @@ var simpleWriteStream = (function(primitiveWriteStream) {
       primitiveWriteStream.prepareWrite((function(readClosed, writer) {
         mIsClosed = true;
         if (readClosed)
-          return;
+          return ;
         writer(mStreamClosed);
         mFlushingWrite = false;
       }));
@@ -113,7 +113,7 @@ var simpleWriteStream = (function(primitiveWriteStream) {
       mFlushingWrite = false;
     }
   });
-  var flushWrite = (function() {
+  let flushWrite = (function() {
     if (!mFlushingWrite) {
       mFlushingWrite = true;
       flushNextWrite();
@@ -126,11 +126,11 @@ var simpleWriteStream = (function(primitiveWriteStream) {
       process.nextTick((function() {
         callback(mStreamClosed);
       }));
-      return;
+      return ;
     }
     mWriteCallback = callback;
     if (mFlushingWrite)
-      return;
+      return ;
     primitiveWriteStream.prepareWrite((function(readClosed, primitiveWriter) {
       if (readClosed)
         return handleReadClosed(readClosed);
@@ -146,27 +146,27 @@ var simpleWriteStream = (function(primitiveWriteStream) {
     if (mWriteCallback)
       throw new Error('Cannot write and prepare write at the same time');
     if (mIsClosing || mIsClosed)
-      return;
+      return ;
     if (mPrimitiveWriter) {
       doPrimitiveWrite(null, data);
-      return;
+      return ;
     }
     mWriteQueue.push(data);
     flushWrite();
   });
   writeStream.closeWrite = (function(err) {
     if (mIsClosed || mIsClosing)
-      return;
+      return ;
     mIsClosing = true;
     if (mStreamClosed)
       throwInconsistentStateError();
-    var writeClosed = {err: err};
+    let writeClosed = {err: err};
     mStreamClosed = writeClosed;
     if (mWriteCallback) {
       mWriteCallback = null;
       if (!mPrimitiveWriter) {
         mIsClosed = true;
-        return;
+        return ;
       }
     }
     if (mPrimitiveWriter) {
@@ -175,7 +175,7 @@ var simpleWriteStream = (function(primitiveWriteStream) {
     } else if (!mFlushingWrite) {
       primitiveWriteStream.prepareWrite((function(readClosed, writer) {
         if (readClosed)
-          return;
+          return ;
         writer(mStreamClosed);
       }));
     }
@@ -185,12 +185,12 @@ var simpleWriteStream = (function(primitiveWriteStream) {
   });
   return writeStream;
 });
-var simpleChannel = (function() {
-  var $__1 = primitiveChannel(),
+let simpleChannel = (function() {
+  let $__1 = primitiveChannel(),
       primitiveRead = $__1.readStream,
       primitiveWrite = $__1.writeStream;
-  var readStream = simpleReadStream(primitiveRead);
-  var writeStream = simpleWriteStream(primitiveWrite);
+  let readStream = simpleReadStream(primitiveRead);
+  let writeStream = simpleWriteStream(primitiveWrite);
   return {
     readStream: readStream,
     writeStream: writeStream
