@@ -5,18 +5,18 @@ Object.defineProperties(exports, {
     }},
   __esModule: {value: true}
 });
-var nextTick = process.nextTick;
-var primitiveChannel = (function() {
-  var readStream = {};
-  var writeStream = {};
-  var mStreamClosed = null;
-  var mReadCallback = null;
-  var mWriteCallback = null;
-  var mStreamInProgress = false;
-  var dispatchCallback = (function() {
+let nextTick = process.nextTick;
+let primitiveChannel = (function() {
+  let readStream = {};
+  let writeStream = {};
+  let mStreamClosed = null;
+  let mReadCallback = null;
+  let mWriteCallback = null;
+  let mStreamInProgress = false;
+  let dispatchCallback = (function() {
     mStreamInProgress = true;
-    var writerCalled = false;
-    var writer = (function(writeClosed, buffer) {
+    let writerCalled = false;
+    let writer = (function(writeClosed, buffer) {
       if (writerCalled)
         throw new Error('writer can only be called once');
       writerCalled = true;
@@ -28,22 +28,22 @@ var primitiveChannel = (function() {
         mStreamClosed = writeClosed;
       nextTick((function() {
         mStreamInProgress = false;
-        var readCallback = mReadCallback;
+        let readCallback = mReadCallback;
         mReadCallback = null;
         readCallback(writeClosed, buffer);
       }));
     });
     nextTick((function() {
-      var writeCallback = mWriteCallback;
+      let writeCallback = mWriteCallback;
       mWriteCallback = null;
       writeCallback(null, writer);
     }));
   });
-  var dispatchIfReady = (function() {
+  let dispatchIfReady = (function() {
     if (mWriteCallback && mReadCallback && !mStreamInProgress)
       dispatchCallback();
   });
-  var notifyStreamClosed = (function(callback) {
+  let notifyStreamClosed = (function(callback) {
     return nextTick((function() {
       mStreamInProgress = false;
       mReadCallback = null;
@@ -65,7 +65,7 @@ var primitiveChannel = (function() {
     if (mReadCallback)
       throw new Error('cannot close read stream before read callback is completed');
     if (mStreamClosed)
-      return;
+      return ;
     mStreamClosed = {err: err};
     if (mWriteCallback && !mStreamInProgress) {
       notifyStreamClosed(mWriteCallback);
@@ -85,12 +85,12 @@ var primitiveChannel = (function() {
     if (mWriteCallback)
       throw new Error('cannot close write stream before write callback is completed');
     if (mStreamClosed)
-      return;
+      return ;
     mStreamClosed = {err: err};
     if (mReadCallback && !mStreamInProgress)
       notifyStreamClosed(mReadCallback);
   });
-  var channel = {
+  let channel = {
     writeStream: writeStream,
     readStream: readStream
   };

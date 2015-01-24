@@ -15,7 +15,7 @@ var $__quiver_45_promise__,
     $__simple__;
 var createPromise = ($__quiver_45_promise__ = require("quiver-promise"), $__quiver_45_promise__ && $__quiver_45_promise__.__esModule && $__quiver_45_promise__ || {default: $__quiver_45_promise__}).createPromise;
 var simpleChannel = ($__simple__ = require("./simple"), $__simple__ && $__simple__.__esModule && $__simple__ || {default: $__simple__}).simpleChannel;
-var promisedReadStream = (function(simpleReadStream) {
+let promisedReadStream = (function(simpleReadStream) {
   return ({
     read: (function() {
       return createPromise((function(resolve, reject) {
@@ -34,7 +34,7 @@ var promisedReadStream = (function(simpleReadStream) {
     isClosed: simpleReadStream.isClosed
   });
 });
-var promisedWriteStream = (function(simpleWriteStream) {
+let promisedWriteStream = (function(simpleWriteStream) {
   return ({
     prepareWrite: (function() {
       return createPromise((function(resolve, reject) {
@@ -54,12 +54,12 @@ var promisedWriteStream = (function(simpleWriteStream) {
     isClosed: simpleWriteStream.isClosed
   });
 });
-var promisedChannel = (function() {
-  var $__2 = simpleChannel(),
+let promisedChannel = (function() {
+  let $__2 = simpleChannel(),
       simpleRead = $__2.readStream,
       simpleWrite = $__2.writeStream;
-  var readStream = promisedReadStream(simpleRead);
-  var writeStream = promisedWriteStream(simpleWrite);
+  let readStream = promisedReadStream(simpleRead);
+  let writeStream = promisedWriteStream(simpleWrite);
   return {
     readStream: readStream,
     writeStream: writeStream

@@ -1,13 +1,13 @@
 "use strict";
-var $__traceur_64_0_46_0_46_7__,
+var $__traceur_64_0_46_0_46_8__,
     $__chai__,
     $___46__46__47_lib_47_primitive__;
-($__traceur_64_0_46_0_46_7__ = require("traceur"), $__traceur_64_0_46_0_46_7__ && $__traceur_64_0_46_0_46_7__.__esModule && $__traceur_64_0_46_0_46_7__ || {default: $__traceur_64_0_46_0_46_7__});
+($__traceur_64_0_46_0_46_8__ = require("traceur"), $__traceur_64_0_46_0_46_8__ && $__traceur_64_0_46_0_46_8__.__esModule && $__traceur_64_0_46_0_46_8__ || {default: $__traceur_64_0_46_0_46_8__});
 var chai = ($__chai__ = require("chai"), $__chai__ && $__chai__.__esModule && $__chai__ || {default: $__chai__}).default;
 var primitiveChannel = ($___46__46__47_lib_47_primitive__ = require("../lib/primitive"), $___46__46__47_lib_47_primitive__ && $___46__46__47_lib_47_primitive__.__esModule && $___46__46__47_lib_47_primitive__ || {default: $___46__46__47_lib_47_primitive__}).primitiveChannel;
-var should = chai.should();
-var guard = (function(callback) {
-  var called = false;
+let should = chai.should();
+let guard = (function(callback) {
+  let called = false;
   return (function() {
     for (var args = [],
         $__2 = 0; $__2 < arguments.length; $__2++)
@@ -19,12 +19,12 @@ var guard = (function(callback) {
 });
 describe('different correct read write sequences', (function() {
   it('read write write read read closeWrite', (function(callback) {
-    var $__3 = primitiveChannel(),
+    let $__3 = primitiveChannel(),
         readStream = $__3.readStream,
         writeStream = $__3.writeStream;
-    var firstData = 'foo';
-    var secondData = 'bar';
-    var closeErr = 'error';
+    let firstData = 'foo';
+    let secondData = 'bar';
+    let closeErr = 'error';
     readStream.read(guard((function(streamClosed, data) {
       should.not.exist(streamClosed);
       data.should.equal(firstData);
@@ -52,12 +52,12 @@ describe('different correct read write sequences', (function() {
     })));
   }));
   it('write read read write closeRead write', (function(callback) {
-    var $__3 = primitiveChannel(),
+    let $__3 = primitiveChannel(),
         readStream = $__3.readStream,
         writeStream = $__3.writeStream;
-    var firstData = 'foo';
-    var secondData = 'bar';
-    var closeErr = 'error';
+    let firstData = 'foo';
+    let secondData = 'bar';
+    let closeErr = 'error';
     writeStream.prepareWrite(guard((function(streamClosed, writer) {
       should.not.exist(streamClosed);
       writer.should.be.a.Function;
@@ -87,7 +87,7 @@ describe('different correct read write sequences', (function() {
 }));
 describe('inconsistent states', (function() {
   it('when read is called twice', (function() {
-    var readStream = primitiveChannel().readStream;
+    let readStream = primitiveChannel().readStream;
     ;
     ((function() {
       readStream.read(function(streamClosed, buffer) {

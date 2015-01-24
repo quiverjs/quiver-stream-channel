@@ -2,15 +2,15 @@ import 'traceur'
 import chai from 'chai'
 import { promisedChannel } from '../lib/promised'
 
-var should = chai.should()
+let should = chai.should()
 
 describe('promised channel test', () => {
   it('read write write read read closeWrite', (callback) => {
-    var { readStream, writeStream } = promisedChannel()
+    let { readStream, writeStream } = promisedChannel()
 
-    var firstData = 'foo'
-    var secondData = 'bar'
-    var closeErr = 'error'
+    let firstData = 'foo'
+    let secondData = 'bar'
+    let closeErr = 'error'
 
     // 1
     readStream.read().then(({ closed, data }) => {
@@ -30,7 +30,7 @@ describe('promised channel test', () => {
         data.should.equal(secondData)
 
         // 5
-        var promised21 = readStream.read().then(({ closed, data }) => {
+        let promised21 = readStream.read().then(({ closed, data }) => {
           should.exist(closed)
           should.not.exist(data)
 
@@ -54,13 +54,13 @@ describe('promised channel test', () => {
   })
 
   it('should be able to write multiple times', callback => {
-    var { readStream, writeStream } = promisedChannel()
+    let { readStream, writeStream } = promisedChannel()
 
-    var firstData = 'foo'
-    var secondData = 'bar'
-    var thirdData = 'baz'
-    var fourthData = 'blah'
-    var closeErr = 'error'
+    let firstData = 'foo'
+    let secondData = 'bar'
+    let thirdData = 'baz'
+    let fourthData = 'blah'
+    let closeErr = 'error'
 
     writeStream.write(firstData)
     writeStream.write(secondData)
@@ -94,7 +94,7 @@ describe('promised channel test', () => {
   })
 
   it('close read while reading', callback => {
-    var { readStream, writeStream } = promisedChannel()
+    let { readStream, writeStream } = promisedChannel()
 
     readStream.read().then(({closed, data}) => {
       console.log('read callback triggered')

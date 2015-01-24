@@ -2,10 +2,10 @@ import 'traceur'
 import chai from 'chai'
 import { simpleChannel } from '../lib/simple'
 
-var should = chai.should()
+let should = chai.should()
 
-var guard = callback => {
-  var called = false
+let guard = callback => {
+  let called = false
   return (...args) => {
     if(called) throw new Error('callback is called multiple times')
     callback(...args)
@@ -14,11 +14,11 @@ var guard = callback => {
 
 describe('compatibility test with primitive stream', () => {
   it('read write write read read closeWrite', callback => {
-    var { readStream, writeStream } = simpleChannel()
+    let { readStream, writeStream } = simpleChannel()
 
-    var firstData = 'foo'
-    var secondData = 'bar'
-    var closeErr = 'error'
+    let firstData = 'foo'
+    let secondData = 'bar'
+    let closeErr = 'error'
 
     // 1
     readStream.read(guard((streamClosed, data) => {
@@ -65,13 +65,13 @@ describe('compatibility test with primitive stream', () => {
 
 describe('simple stream extension test', () => {
   it('should be able to write multiple times', callback => {
-    var { readStream, writeStream } = simpleChannel()
+    let { readStream, writeStream } = simpleChannel()
 
-    var firstData = 'foo'
-    var secondData = 'bar'
-    var thirdData = 'baz'
-    var fourthData = 'blah'
-    var closeErr = 'error'
+    let firstData = 'foo'
+    let secondData = 'bar'
+    let thirdData = 'baz'
+    let fourthData = 'blah'
+    let closeErr = 'error'
 
     writeStream.write(firstData)
     writeStream.write(secondData)
@@ -109,9 +109,9 @@ describe('simple stream extension test', () => {
 
 describe('close stream test', () => {
   it('read stream should close correctly', callback => {
-    var channel = simpleChannel()
-    var readStream = channel.readStream
-    var writeStream = channel.writeStream
+    let channel = simpleChannel()
+    let readStream = channel.readStream
+    let writeStream = channel.writeStream
 
     readStream.isClosed().should.equal(false)
     writeStream.isClosed().should.equal(false)
@@ -127,9 +127,9 @@ describe('close stream test', () => {
   })
 
   it('write stream should close correctly', callback => {
-    var channel = simpleChannel()
-    var readStream = channel.readStream
-    var writeStream = channel.writeStream
+    let channel = simpleChannel()
+    let readStream = channel.readStream
+    let writeStream = channel.writeStream
 
     readStream.isClosed().should.equal(false)
     writeStream.isClosed().should.equal(false)
