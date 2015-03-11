@@ -1,11 +1,11 @@
 import { primitiveChannel } from './primitive'
 
-let throwInconsistentStateError = () => {
+const throwInconsistentStateError = () => {
   throw new Error('critical bug: inconsistent write stream state')
 }
 
-export let simpleReadStream = primitiveReadStream => {
-  let readStream = { }
+export const simpleReadStream = primitiveReadStream => {
+  const readStream = { }
 
   let mStreamClosed = null
   let mReading = false
@@ -43,8 +43,8 @@ export let simpleReadStream = primitiveReadStream => {
   return readStream
 }
 
-export let simpleWriteStream = primitiveWriteStream => {
-  let writeStream = { }
+export const simpleWriteStream = primitiveWriteStream => {
+  const writeStream = { }
 
   let mPrimitiveWriter = null
   let mStreamClosed = null
@@ -57,7 +57,7 @@ export let simpleWriteStream = primitiveWriteStream => {
   let mWriteQueue = []
   let mWriteCallback = null
 
-  let mWriter = (streamClosed, data) => {
+  const mWriter = (streamClosed, data) => {
     if(!streamClosed && !data) throw new Error(
       'must supply either a data or close stream to writer')
 
@@ -65,20 +65,20 @@ export let simpleWriteStream = primitiveWriteStream => {
     if(streamClosed) writeStream.closeWrite(streamClosed.err)
   }
 
-  let callWriteCallback = (streamClosed, writer) => {
-    let writeCallback = mWriteCallback
+  const callWriteCallback = (streamClosed, writer) => {
+    const writeCallback = mWriteCallback
     mWriteCallback = null
     writeCallback(streamClosed, writer)
   }
 
-  let doPrimitiveWrite = (writeClosed, data) => {
+  const doPrimitiveWrite = (writeClosed, data) => {
     mPrimitiveWriter(writeClosed, data)
     mPrimitiveWriter = null
   }
 
   // If in the middle of writing the read stream is closed,
   // We want to discard all pending data
-  let handleReadClosed = (readClosed) => {
+  const handleReadClosed = (readClosed) => {
     mWriteQueue = []
     mIsClosed = true
 
@@ -89,12 +89,12 @@ export let simpleWriteStream = primitiveWriteStream => {
     }
   }
 
-  let flushNextWrite = () => {
+  const flushNextWrite = () => {
     if(mWriteQueue.length > 0) {
       primitiveWriteStream.prepareWrite((readClosed, writer) => {
         if(readClosed) return handleReadClosed(readClosed)
 
-        let data = mWriteQueue.shift()
+        const data = mWriteQueue.shift()
         writer(null, data)
         flushNextWrite()
       })
@@ -122,7 +122,7 @@ export let simpleWriteStream = primitiveWriteStream => {
     }
   }
 
-  let flushWrite = () => {
+  const flushWrite = () => {
     if(!mFlushingWrite) {
       mFlushingWrite = true
       flushNextWrite()
@@ -131,7 +131,7 @@ export let simpleWriteStream = primitiveWriteStream => {
 
   writeStream.prepareWrite = callback => {
     if(mWriteCallback) throw new Error(
-      'previous prepareWrite has not been completed')
+      'previous prepareWrite has not been compconsted')
 
     if(mIsClosing || mIsClosed) {
       process.nextTick(() => {
@@ -154,7 +154,7 @@ export let simpleWriteStream = primitiveWriteStream => {
 
       // It is impossible to have any data in the write queue
       // as primitive prepare write is only called after the flushing
-      // is completed and it is not allowed to write anything meanwhile.
+      // is compconsted and it is not allowed to write anything meanwhile.
       if(mFlushingWrite) throwInconsistentStateError()
 
       // The caller may close the stream while waiting for prepareWrite,
@@ -198,7 +198,7 @@ export let simpleWriteStream = primitiveWriteStream => {
 
     if(mStreamClosed) throwInconsistentStateError()
 
-    let writeClosed = { err: err }
+    const writeClosed = { err: err }
     mStreamClosed = writeClosed
 
     // cancel write callback
@@ -229,14 +229,14 @@ export let simpleWriteStream = primitiveWriteStream => {
   return writeStream
 }
 
-export let simpleChannel = () => {
-  let { 
+export const simpleChannel = () => {
+  const { 
     readStream: primitiveRead,
     writeStream: primitiveWrite
   } = primitiveChannel()
 
-  let readStream = simpleReadStream(primitiveRead)
-  let writeStream = simpleWriteStream(primitiveWrite)
+  const readStream = simpleReadStream(primitiveRead)
+  const writeStream = simpleWriteStream(primitiveWrite)
 
   return { readStream, writeStream }
 }

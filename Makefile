@@ -1,7 +1,7 @@
-TRACEUR_FLAGS=--modules commonjs --generators parse --block-binding parse
+BABEL_FLAGS=--blacklist=es6.blockScoping,es6.constants,es6.forOf,regenerator 
 
 build: src
-	traceur --dir src/ out/ $(TRACEUR_FLAGS)
+	babel src --out-dir out $(BABEL_FLAGS)
 
 unit-test: build
 	mocha out/test

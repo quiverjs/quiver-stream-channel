@@ -1,6 +1,6 @@
-let { nextTick } = process
+const { nextTick } = process
 
-export let primitiveChannel = () => {
+export const primitiveChannel = () => {
   let readStream = { }
   let writeStream = { }
 
@@ -11,11 +11,11 @@ export let primitiveChannel = () => {
 
   let mStreamInProgress = false
 
-  let dispatchCallback = () => {
+  const dispatchCallback = () => {
     mStreamInProgress = true
     let writerCalled = false
 
-    let writer = (writeClosed, buffer) => {
+    const writer = (writeClosed, buffer) => {
       if(writerCalled) throw new Error('writer can only be called once')
 
       writerCalled = true
@@ -30,7 +30,7 @@ export let primitiveChannel = () => {
 
       nextTick(() => {
         mStreamInProgress = false
-        let readCallback = mReadCallback
+        const readCallback = mReadCallback
         mReadCallback = null
 
         readCallback(writeClosed, buffer)
@@ -38,19 +38,19 @@ export let primitiveChannel = () => {
     }
 
     nextTick(() => {
-      let writeCallback = mWriteCallback
+      const writeCallback = mWriteCallback
       mWriteCallback = null
 
       writeCallback(null, writer)
     })
   }
 
-  let dispatchIfReady = () => {
+  const dispatchIfReady = () => {
     if(mWriteCallback && mReadCallback && !mStreamInProgress)
       dispatchCallback()
   }
 
-  let notifyStreamClosed = callback =>
+  const notifyStreamClosed = callback =>
     nextTick(() => {
       mStreamInProgress = false
       mReadCallback = null
@@ -73,7 +73,7 @@ export let primitiveChannel = () => {
 
   readStream.closeRead = err => {
     if(mReadCallback) throw new Error(
-      'cannot close read stream before read callback is completed')
+      'cannot close read stream before read callback is compconsted')
 
     if(mStreamClosed) return
     mStreamClosed = { err: err }
@@ -97,7 +97,7 @@ export let primitiveChannel = () => {
 
   writeStream.closeWrite = err => {
     if(mWriteCallback) throw new Error(
-      'cannot close write stream before write callback is completed')
+      'cannot close write stream before write callback is compconsted')
 
     if(mStreamClosed) return
     mStreamClosed = { err: err }
@@ -106,7 +106,7 @@ export let primitiveChannel = () => {
       notifyStreamClosed(mReadCallback)
   }
 
-  let channel = {
+  const channel = {
     writeStream: writeStream,
     readStream: readStream
   }

@@ -1,7 +1,7 @@
 import { createPromise } from 'quiver-promise'
 import { simpleChannel } from './simple'
 
-export let promisedReadStream = (simpleReadStream) => ({
+export const promisedReadStream = (simpleReadStream) => ({
   read: () =>
     createPromise((resolve, reject) =>
       simpleReadStream.read((readClosed, data) => {
@@ -18,7 +18,7 @@ export let promisedReadStream = (simpleReadStream) => ({
   isClosed: simpleReadStream.isClosed
 })
 
-export let promisedWriteStream = (simpleWriteStream) => ({
+export const promisedWriteStream = (simpleWriteStream) => ({
   prepareWrite: () =>
     createPromise((resolve, reject) =>
       simpleWriteStream.prepareWrite(writeClosed => {
@@ -36,14 +36,14 @@ export let promisedWriteStream = (simpleWriteStream) => ({
   isClosed: simpleWriteStream.isClosed
 })
 
-export let promisedChannel = () => {
-  let { 
+export const promisedChannel = () => {
+  const { 
     readStream: simpleRead,
     writeStream: simpleWrite
   } = simpleChannel()
 
-  let readStream = promisedReadStream(simpleRead)
-  let writeStream = promisedWriteStream(simpleWrite)
+  const readStream = promisedReadStream(simpleRead)
+  const writeStream = promisedWriteStream(simpleWrite)
 
   return { readStream, writeStream }
 }
