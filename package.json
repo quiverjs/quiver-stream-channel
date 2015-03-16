@@ -6,16 +6,16 @@
   },
   "name": "quiver-stream-channel",
   "desription": "simple stream channel that is consistent and easy to use",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "homepage": "https://github.com/quiverjs/quiver-stream-channel",
   "repository": {
     "url": "git@github.com:quiverjs/quiver-stream-channel.git"
   },
   "dependencies": {
-    "babel": "~4.7.7",
-    "quiver-promise": "~1.2.0"
+    "quiver-promise": "~1.2.1"
   },
   "devDependencies": {
+    "babel": "~4.7.12",
     "chai": "^1.10.0",
     "mocha": "^2.1.0"
   },
