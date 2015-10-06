@@ -1,4 +1,4 @@
-import { createPromise } from 'quiver-promise'
+import { createPromise } from 'quiver-util/promise'
 import { simpleChannel } from './simple'
 
 export const promisedReadStream = (simpleReadStream) => ({
@@ -37,7 +37,7 @@ export const promisedWriteStream = (simpleWriteStream) => ({
 })
 
 export const promisedChannel = () => {
-  const { 
+  const {
     readStream: simpleRead,
     writeStream: simpleWrite
   } = simpleChannel()

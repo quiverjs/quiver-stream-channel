@@ -1,7 +1,5 @@
-import chai from 'chai'
+import test from 'tape'
 import { primitiveChannel } from '../lib/primitive'
-
-const should = chai.should()
 
 const guard = callback => {
   const called = false
@@ -11,8 +9,8 @@ const guard = callback => {
   }
 }
 
-describe('different correct read write sequences', () => {
-  it('read write write read read closeWrite', callback => {
+test('different correct read write sequences', assert => {
+  assert.test('read write write read read closeWrite', assert => {
     const { readStream, writeStream } = primitiveChannel()
 
     const firstData = 'foo'
@@ -21,29 +19,29 @@ describe('different correct read write sequences', () => {
 
     // 1
     readStream.read(guard((streamClosed, data) => {
-      should.not.exist(streamClosed)
-      data.should.equal(firstData)
+      assert.notOk(streamClosed)
+      assert.equal(data, firstData)
 
       // 3
       writeStream.prepareWrite(guard((streamClosed, writer) => {
-        should.not.exist(streamClosed)
-        writer.should.be.a.Function
+        assert.notOk(streamClosed)
+        assert.equal(typeof(writer), 'function')
 
         writer(null, secondData)
       }))
 
       // 4
       readStream.read(guard((streamClosed, data) => {
-        should.not.exist(streamClosed)
-        data.should.equal(secondData)
+        assert.notOk(streamClosed)
+        assert.equal(data, secondData)
 
         // 5
         readStream.read(guard((streamClosed, data) => {
-          should.exist(streamClosed)
-          streamClosed.err.should.equal(closeErr)
-          should.not.exist(data)
+          assert.ok(streamClosed)
+          assert.equal(streamClosed.err, closeErr)
+          assert.notOk(data)
 
-          callback(null)
+          assert.end()
         }))
 
         // 6
@@ -53,14 +51,14 @@ describe('different correct read write sequences', () => {
 
     // 2
     writeStream.prepareWrite(guard((streamClosed, writer) => {
-      should.not.exist(streamClosed)
-      writer.should.be.a.Function
+      assert.notOk(streamClosed)
+      assert.equal(typeof(writer), 'function')
 
       writer(null, firstData)
     }))
   })
 
-  it('write read read write closeRead write', callback => {
+  assert.test('write read read write closeRead write', assert => {
     const { readStream, writeStream } = primitiveChannel()
 
     const firstData = 'foo'
@@ -69,39 +67,39 @@ describe('different correct read write sequences', () => {
 
     // 1
     writeStream.prepareWrite(guard((streamClosed, writer) => {
-      should.not.exist(streamClosed)
-      writer.should.be.a.Function
+      assert.notOk(streamClosed)
+      assert.equal(typeof(writer), 'function')
 
       writer(null, firstData)
     }))
 
     // 2
     readStream.read(guard((streamClosed, data) => {
-      should.not.exist(streamClosed)
-      data.should.equal(firstData)
+      assert.notOk(streamClosed)
+      assert.equal(data, firstData)
 
       // 3
       readStream.read(guard((streamClosed, data) => {
-        should.not.exist(streamClosed)
-        data.should.equal(secondData)
+        assert.notOk(streamClosed)
+        assert.equal(data, secondData)
 
         // 5
         readStream.closeRead(closeErr)
 
         // 6
         writeStream.prepareWrite(guard((streamClosed, writer) => {
-          should.exist(streamClosed)
-          streamClosed.err.should.equal(closeErr)
-          should.not.exist(writer)
-          
-          callback(null)
+          assert.ok(streamClosed)
+          assert.equal(streamClosed.err, closeErr)
+          assert.notOk(writer)
+
+          assert.end()
         }))
       }))
 
       // 4
       writeStream.prepareWrite(guard((streamClosed, writer) => {
-        should.not.exist(streamClosed)
-        writer.should.be.a.Function
+        assert.notOk(streamClosed)
+        assert.equal(typeof(writer), 'function')
 
         writer(null, secondData)
       }))
@@ -109,20 +107,20 @@ describe('different correct read write sequences', () => {
   })
 })
 
-describe('inconsistent states', () => {
-  it('when read is called twice', () => {
+test('inconsistent states', assert => {
+  assert.test('when read is called twice', assert => {
     const { readStream } = primitiveChannel()
 
-    ;(() => {
-      readStream.read(function(streamClosed, buffer) {
-        should.fail()
-      })
-    }).should.not.throw()
+    readStream.read(function(streamClosed, buffer) {
+      assert.fail()
+    })
 
-    ;(() => {
+    assert.throws(() => {
       readStream.read(function(streamClosed, buffer) {
-        should.fail()
+        assert.fail()
       })
-    }).should.throw()
+    })
+
+    assert.end()
   })
 })

@@ -1,10 +1,8 @@
-import chai from 'chai'
+import test from 'tape'
 import { promisedChannel } from '../lib/promised'
 
-const should = chai.should()
-
-describe('promised channel test', () => {
-  it('read write write read read closeWrite', (callback) => {
+test('promised channel test', assert => {
+  assert.test('read write write read read closeWrite', assert => {
     const { readStream, writeStream } = promisedChannel()
 
     const firstData = 'foo'
@@ -13,46 +11,46 @@ describe('promised channel test', () => {
 
     // 1
     readStream.read().then(({ closed, data }) => {
-      should.not.exist(closed)
-      data.should.equal(firstData)
+      assert.notOk(closed)
+      assert.equal(data, firstData)
 
       // 3
       writeStream.prepareWrite()
       .then(({ closed }) => {
-        should.not.exist(closed)
+        assert.notOk(closed)
         writeStream.write(secondData)
       })
 
       // 4
       readStream.read().then(({ closed, data }) => {
-        should.not.exist(closed)
-        data.should.equal(secondData)
+        assert.notOk(closed)
+        assert.equal(data, secondData)
 
         // 5
         const promised21 = readStream.read().then(({ closed, data }) => {
-          should.exist(closed)
-          should.not.exist(data)
+          assert.ok(closed)
+          assert.notOk(data)
 
-          callback()
+          assert.end()
         })
 
         // 6
         writeStream.closeWrite()
       })
     })
-    .catch(callback)
+    .catch(assert.fail)
 
     // 2
     writeStream.prepareWrite()
     .then(({ closed }) => {
-      should.not.exist(closed)
+      assert.notOk(closed)
 
       writeStream.write(firstData)
     })
-    .catch(callback)
+    .catch(assert.fail)
   })
 
-  it('should be able to write multiple times', callback => {
+  assert.test('should be able to write multiple times', assert => {
     const { readStream, writeStream } = promisedChannel()
 
     const firstData = 'foo'
@@ -65,47 +63,47 @@ describe('promised channel test', () => {
     writeStream.write(secondData)
 
     readStream.read().then(({ closed, data }) => {
-      should.not.exist(closed)
-      data.should.equal(firstData)
+      assert.notOk(closed)
+      assert.equal(data, firstData)
 
       readStream.read().then(({ closed, data }) => {
-        should.not.exist(closed)
-        data.should.equal(secondData)
+        assert.notOk(closed)
+        assert.equal(data, secondData)
 
         readStream.read().then(({ closed, data }) => {
-          should.not.exist(closed)
-          data.should.equal(thirdData)
+          assert.notOk(closed)
+          assert.equal(data, thirdData)
 
           readStream.closeRead(closeErr)
 
           readStream.read().catch(err => {
-            err.should.equal(closeErr)
-            callback()
+            assert.equal(err, closeErr)
+            assert.end()
           })
         })
 
         writeStream.write(thirdData)
         writeStream.prepareWrite().catch(err => {
-          err.should.equal(closeErr)
+          assert.equal(err, closeErr)
         })
       })
     })
   })
 
-  it('close read while reading', callback => {
+  assert.test('close read while reading', assert => {
     const { readStream, writeStream } = promisedChannel()
 
     readStream.read().then(({closed, data}) => {
       console.log('read callback triggered')
-      callback(new Error('should not get callback'))
+      assert.fail(new Error('should not get callback'))
     })
 
     readStream.closeRead()
 
     writeStream.prepareWrite().then(({closed}) => {
-      //should.exist(closed)
-      callback()
+      // assert.ok(closed)
+      assert.end()
     })
-    .catch(callback)
+    .catch(assert.fail)
   })
 })
