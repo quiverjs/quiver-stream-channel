@@ -6,33 +6,30 @@
   },
   "name": "quiver-stream-channel",
   "desription": "simple stream channel that is consistent and easy to use",
-  "version": "1.4.2",
+  "version": "1.4.3",
   "homepage": "https://github.com/quiverjs/quiver-stream-channel",
   "repository": {
     "url": "git@github.com:quiverjs/quiver-stream-channel.git"
   },
   "dependencies": {
-    "quiver-util": "~1.1.3",
-    "babel-runtime": "^5.8.25"
+    "quiver-util": "^1.2.1"
   },
   "devDependencies": {
-    "babel": "^5.8.23",
-    "tape": "^4.2.1"
+    "babel-cli": "^6.10.1",
+    "quiver-babel": "^1.0.1",
+    "tape": "^4.5.1"
   },
   "bugs": {
     "url": "https://github.com/quiverjs/quiver-stream-channel/issues",
     "email": "quiverjs@soareschen.com"
   },
-  "licenses": {
-    "type": "MIT",
-    "url": "https://raw.github.com/quiverjs/license/master/LICENSE"
-  },
+  "license": "ISC",
   "main": "./index.js",
   "scripts": {
     "test": "make test",
     "prepublish": "make build"
   },
   "engines": {
-    "node": "^4.1.1"
+    "node": "^6.2.2"
   }
 }

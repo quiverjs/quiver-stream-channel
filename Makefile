@@ -1,5 +1,5 @@
 build: src
-	babel src --out-dir out
+	babel --presets 'quiver-babel/node-preset' --out-dir out src
 
 test: build
 	node out/test
